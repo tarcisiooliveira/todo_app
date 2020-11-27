@@ -7,6 +7,7 @@ defmodule TodoAppWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Ueberauth
   end
 
   pipeline :api do
@@ -16,7 +17,13 @@ defmodule TodoAppWeb.Router do
   scope "/", TodoAppWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/new", TarefaController, :new
+    post "/", TarefaController, :create
+    get "/", TarefaController, :index
+
+    get "/:id/edit", TarefaController, :edit
+    put "/:id", TarefaController, :update
+    delete "/:id", TarefaController, :delete
   end
 
   # Other scopes may use custom stacks.
@@ -39,4 +46,13 @@ defmodule TodoAppWeb.Router do
       live_dashboard "/dashboard", metrics: TodoAppWeb.Telemetry
     end
   end
+
+  scope "/auth", TodoAppWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    get "/:provider/logout", AuthController, :logout
+  end
+
 end

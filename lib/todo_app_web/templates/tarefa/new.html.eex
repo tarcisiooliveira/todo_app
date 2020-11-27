@@ -1,0 +1,14 @@
+<%= form_for @changeset, Routes.tarefa_path(@conn, :create), fn f -> %>#quando a pagina é carregada, ela já sabe que vai usar o
+metodo post nesse formulário por conta do :create
+    <div class="form_group" >
+
+        <%= text_input f, :titulo, placeholder: "Titulo", class: "form-control" %>
+        <%= error_tag f, :titulo %>
+
+        <%= select f, :pronta, ["true", "false"], class: "form-control", style: "display: block", prompt: "A tarefa foi concluída?" %>
+        <%= error_tag f, :pronta %>
+
+    </div>
+<%= submit "Criar Tarefa", class: "btn btn_primary" %>
+
+<% end %>
